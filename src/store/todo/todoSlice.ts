@@ -9,10 +9,12 @@ export interface TodoItem {
 
 export interface TodoState {
   todoList: TodoItem[];
+  modalIsOpen: boolean;
 }
 
 const initialState: TodoState = {
   todoList: [],
+  modalIsOpen: false,
 };
 
 export const todoSlice = createSlice({
@@ -22,9 +24,15 @@ export const todoSlice = createSlice({
     addTodo: (state: TodoState, action: any) => {
       state.todoList.push(action.payload);
     },
+    openModal: (state: TodoState) => {
+      state.modalIsOpen = true;
+    },
+    closeModal: (state: TodoState) => {
+      state.modalIsOpen = false;
+    },
   },
 });
 
-export const { addTodo } = todoSlice.actions;
+export const { addTodo, openModal, closeModal } = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -5,11 +5,13 @@ import Modal from "@mui/material/Modal";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { boxStyles, FieldWrapper } from "./styles";
-import { FormLabel, TextField } from "@mui/material";
+import { Divider, FormLabel, TextField } from "@mui/material";
 import { HexColorPicker } from "react-colorful";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../../store/todo/todoSlice";
+import { addTodo, closeModal } from "../../store/todo/todoSlice";
 import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface FormValues {
   todoName: string;
@@ -24,12 +26,10 @@ const TodoModal = () => {
     todoColor: "",
   };
 
-  const [open, setOpen] = useState(false);
+  const modalIsOpen = useSelector((state: RootState) => state.todo.modalIsOpen);
   const [color, setColor] = useState("#aabbcc");
   const dispatch = useDispatch();
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => dispatch(closeModal());
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -48,11 +48,8 @@ const TodoModal = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained">
-        Add Todo
-      </Button>
       <Modal
-        open={open}
+        open={modalIsOpen}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -67,6 +64,7 @@ const TodoModal = () => {
           >
             TODO INFO
           </Typography>
+          <Divider sx={{ mb: 5 }} />
           <form onSubmit={formik.handleSubmit}>
             <FieldWrapper>
               <FormLabel htmlFor="todoName">Todo Name</FormLabel>

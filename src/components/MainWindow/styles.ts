@@ -11,4 +11,5 @@ export const Wrapper = styled.div`
 export const Title = styled.div`
   width: 100%;
   text-align: center;
+  margin-bottom: 15px;
 `;
