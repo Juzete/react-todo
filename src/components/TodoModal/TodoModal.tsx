@@ -18,6 +18,12 @@ interface FormValues {
 }
 
 const TodoModal = () => {
+  const initialValues: FormValues = {
+    todoName: "",
+    todoDescription: "",
+    todoColor: "",
+  };
+
   const [open, setOpen] = useState(false);
   const [color, setColor] = useState("#aabbcc");
   const dispatch = useDispatch();
@@ -25,16 +31,14 @@ const TodoModal = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const initialValues: FormValues = {
-    todoName: "",
-    todoDescription: "",
-    todoColor: "",
-  };
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
+    onSubmit: (values, actions) => {
       handleClose();
       dispatch(addTodo({ id: uuidv4(), ...values }));
+      actions.resetForm({
+        values: initialValues,
+      });
     },
   });
 
