@@ -1,22 +1,17 @@
-import { ExpandMore } from "@mui/icons-material";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-} from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { openModal } from "../../store/todo/todoSlice";
+import { deleteTodo, openModal } from "../../store/todo/todoSlice";
 import TodoList from "../TodoList";
 import TodoModal from "../TodoModal";
 import { Title, Wrapper } from "./styles";
 
 const MainWindow = () => {
   const dispatch = useDispatch();
+  const [isChecked, setIsChecked] = useState<string[]>([]);
+
   const handleOpenModal = () => dispatch(openModal());
+  const handleDeleteTodo = () => dispatch(deleteTodo(isChecked));
 
   return (
     <Wrapper>
@@ -29,11 +24,13 @@ const MainWindow = () => {
         <Button variant="contained" onClick={handleOpenModal}>
           Add todo
         </Button>
+        <Button variant="contained" onClick={handleDeleteTodo} color="error">
+          Delete
+        </Button>
       </div>
-
       <TodoModal />
       <div style={{ width: "100%", marginTop: "20px" }}>
-        <TodoList />
+        <TodoList setIsChecked={setIsChecked} />
       </div>
     </Wrapper>
   );

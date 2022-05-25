@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface TodoItem {
   id: string;
@@ -30,9 +30,14 @@ export const todoSlice = createSlice({
     closeModal: (state: TodoState) => {
       state.modalIsOpen = false;
     },
+    deleteTodo: (state: TodoState, action: any) => {
+      state.todoList = state.todoList.filter(
+        (item) => action.payload.indexOf(item.id) === -1
+      );
+    },
   },
 });
 
-export const { addTodo, openModal, closeModal } = todoSlice.actions;
+export const { addTodo, openModal, closeModal, deleteTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;
