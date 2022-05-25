@@ -7,6 +7,9 @@ import { useFormik } from "formik";
 import { boxStyles, FieldWrapper } from "./styles";
 import { FormLabel, TextField } from "@mui/material";
 import { HexColorPicker } from "react-colorful";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../../store/todo/todoSlice";
+import { v4 as uuidv4 } from "uuid";
 
 interface FormValues {
   todoName: string;
@@ -17,6 +20,7 @@ interface FormValues {
 const TodoModal = () => {
   const [open, setOpen] = useState(false);
   const [color, setColor] = useState("#aabbcc");
+  const dispatch = useDispatch();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -29,8 +33,8 @@ const TodoModal = () => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
       handleClose();
+      dispatch(addTodo({ id: uuidv4(), ...values }));
     },
   });
 
