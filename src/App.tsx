@@ -1,4 +1,4 @@
-import MainWindow from "./components/MainWindow/MainWindow";
+import MainWindow from "./components/MainWindow";
 
 const App = () => {
   return <MainWindow />;
