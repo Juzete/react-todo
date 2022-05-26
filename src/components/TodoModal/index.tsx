@@ -8,7 +8,7 @@ import { boxStyles, FieldWrapper } from "./styles";
 import { Divider, FormLabel, TextField } from "@mui/material";
 import { HexColorPicker } from "react-colorful";
 import { useDispatch } from "react-redux";
-import { addTodo, closeModal } from "../../store/todo/todoSlice";
+import { addTodo, closeModal, editTodo } from "../../store/todo/todoSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -27,6 +27,10 @@ const TodoModal = () => {
   };
 
   const modalIsOpen = useSelector((state: RootState) => state.todo.modalIsOpen);
+  const modalState = useSelector((state: RootState) => state.todo.modalState);
+  const currentModalId = useSelector(
+    (state: RootState) => state.todo.currentModalId
+  );
   const [color, setColor] = useState("#aabbcc");
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeModal());
@@ -35,10 +39,29 @@ const TodoModal = () => {
     initialValues: initialValues,
     onSubmit: (values, actions) => {
       handleClose();
-      dispatch(addTodo({ id: uuidv4(), ...values }));
-      actions.resetForm({
-        values: initialValues,
-      });
+      if (modalState === "set") {
+        dispatch(addTodo({ id: uuidv4(), ...values }));
+        actions.resetForm({
+          values: initialValues,
+        });
+      } else if (modalState === "edit") {
+        console.log("edit modal");
+        console.log(values, 111);
+        const setExistVal = () => {
+          let temp = {};
+          const { todoColor, todoDescription, todoName } = values;
+          if (todoColor) temp = { ...temp, todoColor };
+          if (todoDescription) temp = { ...temp, todoDescription };
+          if (todoName) temp = { ...temp, todoName };
+          return temp;
+        };
+        const val = setExistVal();
+        console.log({ val });
+        dispatch(editTodo({ id: currentModalId, ...val }));
+        actions.resetForm({
+          values: initialValues,
+        });
+      }
     },
   });
 

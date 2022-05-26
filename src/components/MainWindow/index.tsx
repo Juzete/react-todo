@@ -1,6 +1,8 @@
 import { Button, Typography } from "@mui/material";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { RootState } from "../../store";
 import { deleteTodo, openModal } from "../../store/todo/todoSlice";
 import TodoList from "../TodoList";
 import TodoModal from "../TodoModal";
@@ -9,8 +11,9 @@ import { Title, Wrapper } from "./styles";
 const MainWindow = () => {
   const dispatch = useDispatch();
   const [isChecked, setIsChecked] = useState<string[]>([]);
+  const dataList = useSelector((state: RootState) => state.todo.todoList);
 
-  const handleOpenModal = () => dispatch(openModal());
+  const handleOpenModal = () => dispatch(openModal("set"));
   const handleDeleteTodo = () => dispatch(deleteTodo(isChecked));
 
   return (
@@ -21,12 +24,14 @@ const MainWindow = () => {
         </Typography>
       </Title>
       <div>
-        <Button variant="contained" onClick={handleOpenModal}>
+        <Button variant="contained" onClick={handleOpenModal} sx={{ mr: 3 }}>
           Add todo
         </Button>
-        <Button variant="contained" onClick={handleDeleteTodo} color="error">
-          Delete
-        </Button>
+        {dataList.length > 0 ? (
+          <Button variant="contained" onClick={handleDeleteTodo} color="error">
+            Delete
+          </Button>
+        ) : null}
       </div>
       <TodoModal />
       <div style={{ width: "100%", marginTop: "20px" }}>

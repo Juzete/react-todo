@@ -3,12 +3,19 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Button,
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { TodoItem } from "../../store/todo/todoSlice";
+import {
+  openModal,
+  setCurrentModalId,
+  TodoItem,
+} from "../../store/todo/todoSlice";
+import { EditButtonWrapper } from "./styles";
 
 type TodoListProps = {
   setIsChecked: (prev: any) => void;
@@ -16,6 +23,7 @@ type TodoListProps = {
 
 const TodoList: React.FC<TodoListProps> = ({ setIsChecked }) => {
   const dataList = useSelector((state: RootState) => state.todo.todoList);
+  const dispatch = useDispatch();
 
   const handleCheckbox = () => (e: any) => {
     if (e.target?.checked) {
@@ -25,6 +33,11 @@ const TodoList: React.FC<TodoListProps> = ({ setIsChecked }) => {
         prevState.filter((item: any) => item !== e.target.id)
       );
     }
+  };
+  const handleEditClick = () => (e: any) => {
+    console.log(e.target.id);
+    dispatch(openModal("edit"));
+    dispatch(setCurrentModalId(e.target.id));
   };
 
   const printList = () => {
@@ -49,6 +62,16 @@ const TodoList: React.FC<TodoListProps> = ({ setIsChecked }) => {
           <AccordionDetails sx={{ fontFamily: "roboto" }}>
             {item.todoDescription}
           </AccordionDetails>
+          <EditButtonWrapper>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleEditClick()}
+              id={item.id}
+            >
+              Edit
+            </Button>
+          </EditButtonWrapper>
         </Accordion>
       );
     });
