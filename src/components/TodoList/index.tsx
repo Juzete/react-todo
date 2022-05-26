@@ -35,7 +35,6 @@ const TodoList: React.FC<TodoListProps> = ({ setIsChecked }) => {
     }
   };
   const handleEditClick = () => (e: any) => {
-    console.log(e.target.id);
     dispatch(openModal("edit"));
     dispatch(setCurrentModalId(e.target.id));
   };

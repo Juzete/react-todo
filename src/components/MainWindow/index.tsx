@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { deleteTodo, openModal } from "../../store/todo/todoSlice";
+import AlertDialog from "../AlertDialog";
 import TodoList from "../TodoList";
 import TodoModal from "../TodoModal";
 import { Title, Wrapper } from "./styles";
@@ -27,10 +28,8 @@ const MainWindow = () => {
         <Button variant="contained" onClick={handleOpenModal} sx={{ mr: 3 }}>
           Add todo
         </Button>
-        {dataList.length > 0 ? (
-          <Button variant="contained" onClick={handleDeleteTodo} color="error">
-            Delete
-          </Button>
+        {dataList.length > 0 && isChecked.length > 0 ? (
+          <AlertDialog handleDeleteTodo={handleDeleteTodo} />
         ) : null}
       </div>
       <TodoModal />

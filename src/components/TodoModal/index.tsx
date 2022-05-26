@@ -45,8 +45,6 @@ const TodoModal = () => {
           values: initialValues,
         });
       } else if (modalState === "edit") {
-        console.log("edit modal");
-        console.log(values, 111);
         const setExistVal = () => {
           let temp = {};
           const { todoColor, todoDescription, todoName } = values;
@@ -56,7 +54,6 @@ const TodoModal = () => {
           return temp;
         };
         const val = setExistVal();
-        console.log({ val });
         dispatch(editTodo({ id: currentModalId, ...val }));
         actions.resetForm({
           values: initialValues,
