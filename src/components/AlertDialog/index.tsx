@@ -9,7 +9,7 @@ import { useState } from "react";
 import React from "react";
 
 type AlertDialogProps = {
-  handleDeleteTodo: (prev: any) => void;
+  handleDeleteTodo: () => void;
 };
 
 const AlertDialog: React.FC<AlertDialogProps> = ({ handleDeleteTodo }) => {

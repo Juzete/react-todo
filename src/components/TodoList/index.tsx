@@ -25,12 +25,12 @@ const TodoList: React.FC<TodoListProps> = ({ setIsChecked }) => {
   const dataList = useSelector((state: RootState) => state.todo.todoList);
   const dispatch = useDispatch();
 
-  const handleCheckbox = () => (e: any) => {
+  const handleCheckbox = () => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target?.checked) {
-      setIsChecked((prevState: any) => [...prevState, e.target.id]);
+      setIsChecked((prevState: string[]) => [...prevState, e.target.id]);
     } else {
-      setIsChecked((prevState: any) =>
-        prevState.filter((item: any) => item !== e.target.id)
+      setIsChecked((prevState: string[]) =>
+        prevState.filter((item: string) => item !== e.target.id)
       );
     }
   };

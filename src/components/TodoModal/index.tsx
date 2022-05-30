@@ -8,7 +8,12 @@ import { boxStyles, FieldWrapper } from "./styles";
 import { Divider, FormLabel, TextField } from "@mui/material";
 import { HexColorPicker } from "react-colorful";
 import { useDispatch } from "react-redux";
-import { addTodo, closeModal, editTodo } from "../../store/todo/todoSlice";
+import {
+  addTodo,
+  closeModal,
+  editTodo,
+  TodoItem,
+} from "../../store/todo/todoSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -54,7 +59,14 @@ const TodoModal = () => {
           return temp;
         };
         const val = setExistVal();
-        dispatch(editTodo({ id: currentModalId, ...val }));
+        const result: TodoItem = {
+          id: currentModalId,
+          todoColor: "",
+          todoDescription: "",
+          todoName: "",
+          ...val,
+        };
+        dispatch(editTodo(result));
         actions.resetForm({
           values: initialValues,
         });

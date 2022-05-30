@@ -25,10 +25,10 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    addTodo: (state: TodoState, action: any) => {
+    addTodo: (state: TodoState, action: PayloadAction<TodoItem>) => {
       state.todoList.push(action.payload);
     },
-    openModal: (state: TodoState, action: any) => {
+    openModal: (state: TodoState, action: PayloadAction<string>) => {
       state.modalIsOpen = true;
       state.modalState = action.payload;
     },
@@ -37,12 +37,12 @@ export const todoSlice = createSlice({
       state.modalState = "";
       state.currentModalId = "";
     },
-    deleteTodo: (state: TodoState, action: any) => {
+    deleteTodo: (state: TodoState, action: PayloadAction<string[]>) => {
       state.todoList = state.todoList.filter(
         (item) => action.payload.indexOf(item.id) === -1
       );
     },
-    editTodo: (state: TodoState, action: any) => {
+    editTodo: (state: TodoState, action: PayloadAction<TodoItem>) => {
       const todoIndex = state.todoList.findIndex(
         (item) => item.id === action.payload.id
       );
@@ -51,7 +51,7 @@ export const todoSlice = createSlice({
         ...action.payload,
       };
     },
-    setCurrentModalId: (state: TodoState, action: any) => {
+    setCurrentModalId: (state: TodoState, action: PayloadAction<string>) => {
       state.currentModalId = action.payload;
     },
   },
