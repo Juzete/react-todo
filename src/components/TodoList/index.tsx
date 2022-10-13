@@ -25,7 +25,7 @@ const TodoList: React.FC<TodoListProps> = ({ setIsChecked }) => {
   const dataList = useSelector((state: RootState) => state.todo.todoList);
   const dispatch = useDispatch();
 
-  const handleCheckbox = () => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target?.checked) {
       setIsChecked((prevState: string[]) => [...prevState, e.target.id]);
     } else {
@@ -53,7 +53,7 @@ const TodoList: React.FC<TodoListProps> = ({ setIsChecked }) => {
               aria-label={item.todoName}
               onClick={(event) => event.stopPropagation()}
               onFocus={(event) => event.stopPropagation()}
-              control={<Checkbox onChange={handleCheckbox()} id={item.id} />}
+              control={<Checkbox onChange={handleCheckbox} id={item.id} />}
               label={item.todoName.toUpperCase()}
             />
             <PriorityHigh sx={{ ml: "auto", mt: 1, color: item.todoColor }} />
