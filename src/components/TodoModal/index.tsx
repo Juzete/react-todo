@@ -76,7 +76,7 @@ const TodoModal = () => {
 
   useEffect(() => {
     formik.values.todoColor = color;
-  }, [color]);
+  }, [color, formik.values]);
 
   return (
     <div>
